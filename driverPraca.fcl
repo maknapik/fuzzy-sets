@@ -1,0 +1,76 @@
+FUNCTION_BLOCK
+
+VAR_INPUT
+ilosc_zadan : REAL;
+trudnosc_zadan : REAL;
+dostepne_zasoby : REAL;
+END_VAR
+
+VAR_OUTPUT
+wymagany_czas : REAL;
+END_VAR
+
+FUZZIFY ilosc_zadan
+TERM malo := (0, 1) (4, 1) (7, 0);
+TERM srednio := (5, 0) (8, 1) (12, 1) (15, 0);
+TERM duzo := (10, 0) (15, 1) (30, 1);
+END_FUZZIFY
+
+FUZZIFY trudnosc_zadan
+TERM latwo := (0, 1) (20, 1) (40, 0);
+TERM przecietnie := (25, 0) (45, 1) (65, 1) (85, 0);
+TERM trudno := (65, 0) (85, 1) (100, 1);
+END_FUZZIFY
+
+FUZZIFY dostepne_zasoby
+TERM male := (0, 1) (20, 1) (40, 0);
+TERM srednie := (25, 0) (45, 1) (65, 1) (85, 0);
+TERM duze := (65, 0) (85, 1) (100, 1);
+END_FUZZIFY
+
+DEFUZZIFY wymagany_czas
+TERM krotki := (1, 1) (2, 1) (4, 0);
+TERM sredni := (2, 0) (4, 1) (5, 1) (7, 0);
+TERM dlugi := (6, 0) (8, 1) (10, 1);
+METHOD : COG;
+DEFAULT := 0;
+END_DEFUZZIFY
+
+
+RULEBLOCK first
+AND: MIN;
+ACT: MIN;
+
+RULE 0: IF ilosc_zadan IS malo AND trudnosc_zadan IS latwo AND dostepne_zasoby IS male THEN wymagany_czas IS sredni;
+RULE 1: IF ilosc_zadan IS malo AND trudnosc_zadan IS latwo AND dostepne_zasoby IS srednie THEN wymagany_czas IS sredni;
+RULE 2: IF ilosc_zadan IS malo AND trudnosc_zadan IS latwo AND dostepne_zasoby IS duze THEN wymagany_czas IS krotki;
+RULE 3: IF ilosc_zadan IS malo AND trudnosc_zadan IS przecietnie AND dostepne_zasoby IS male THEN wymagany_czas IS sredni;
+RULE 4: IF ilosc_zadan IS malo AND trudnosc_zadan IS przecietnie AND dostepne_zasoby IS srednie THEN wymagany_czas IS sredni;
+RULE 5: IF ilosc_zadan IS malo AND trudnosc_zadan IS przecietnie AND dostepne_zasoby IS duze THEN wymagany_czas IS krotki;
+RULE 6: IF ilosc_zadan IS malo AND trudnosc_zadan IS trudno AND dostepne_zasoby IS male THEN wymagany_czas IS sredni;
+RULE 7: IF ilosc_zadan IS malo AND trudnosc_zadan IS trudno AND dostepne_zasoby IS srednie THEN wymagany_czas IS sredni;
+RULE 8: IF ilosc_zadan IS malo AND trudnosc_zadan IS trudno AND dostepne_zasoby IS duze THEN wymagany_czas IS krotki;
+
+RULE 9: IF ilosc_zadan IS srednio AND trudnosc_zadan IS latwo AND dostepne_zasoby IS male THEN wymagany_czas IS sredni;
+RULE 10: IF ilosc_zadan IS srednio AND trudnosc_zadan IS latwo AND dostepne_zasoby IS srednie THEN wymagany_czas IS krotki;
+RULE 11: IF ilosc_zadan IS srednio AND trudnosc_zadan IS latwo AND dostepne_zasoby IS duze THEN wymagany_czas IS krotki;
+RULE 12: IF ilosc_zadan IS srednio AND trudnosc_zadan IS przecietnie AND dostepne_zasoby IS male THEN wymagany_czas IS dlugi;
+RULE 13: IF ilosc_zadan IS srednio AND trudnosc_zadan IS przecietnie AND dostepne_zasoby IS srednie THEN wymagany_czas IS sredni;
+RULE 14: IF ilosc_zadan IS srednio AND trudnosc_zadan IS przecietnie AND dostepne_zasoby IS duze THEN wymagany_czas IS sredni;
+RULE 15: IF ilosc_zadan IS srednio AND trudnosc_zadan IS trudno AND dostepne_zasoby IS male THEN wymagany_czas IS dlugi;
+RULE 16: IF ilosc_zadan IS srednio AND trudnosc_zadan IS trudno AND dostepne_zasoby IS srednie THEN wymagany_czas IS sredni;
+RULE 17: IF ilosc_zadan IS srednio AND trudnosc_zadan IS trudno AND dostepne_zasoby IS duze THEN wymagany_czas IS sredni;
+
+RULE 18: IF ilosc_zadan IS duzo AND trudnosc_zadan IS latwo AND dostepne_zasoby IS male THEN wymagany_czas IS dlugi;
+RULE 19: IF ilosc_zadan IS duzo AND trudnosc_zadan IS latwo AND dostepne_zasoby IS srednie THEN wymagany_czas IS sredni;
+RULE 20: IF ilosc_zadan IS duzo AND trudnosc_zadan IS latwo AND dostepne_zasoby IS duze THEN wymagany_czas IS sredni;
+RULE 21: IF ilosc_zadan IS duzo AND trudnosc_zadan IS przecietnie AND dostepne_zasoby IS male THEN wymagany_czas IS dlugi;
+RULE 22: IF ilosc_zadan IS duzo AND trudnosc_zadan IS przecietnie AND dostepne_zasoby IS srednie THEN wymagany_czas IS dlugi;
+RULE 23: IF ilosc_zadan IS duzo AND trudnosc_zadan IS przecietnie AND dostepne_zasoby IS duze THEN wymagany_czas IS sredni;
+RULE 24: IF ilosc_zadan IS duzo AND trudnosc_zadan IS trudno AND dostepne_zasoby IS male THEN wymagany_czas IS dlugi;
+RULE 25: IF ilosc_zadan IS duzo AND trudnosc_zadan IS trudno AND dostepne_zasoby IS srednie THEN wymagany_czas IS dlugi;
+RULE 26: IF ilosc_zadan IS duzo AND trudnosc_zadan IS trudno AND dostepne_zasoby IS duze THEN wymagany_czas IS dlugi;
+
+END_RULEBLOCK
+
+END_FUNCTION_BLOCK
